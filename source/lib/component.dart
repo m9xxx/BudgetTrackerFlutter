@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './state.dart';
+import 'storage.dart';
 
 class BudgetTracker extends StatelessWidget {
   const BudgetTracker({Key? key}) : super(key: key);
+
+  Future<void> _resetBudget(BuildContext context) async {
+    // 1. Очисти данные в shared_preferences
+    await StorageHelper.clearData();
+
+    // 2. Создай новый BudgetModel с начальными значениями
+    final newModel = BudgetModel(0, 0); // Или другие начальные значения
+
+    // 3. Обнови Provider
+    Provider.of<BudgetModel>(context, listen: false).updateModel(newModel);
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +81,13 @@ class BudgetTracker extends StatelessWidget {
               ElevatedButton(
                 onPressed: model.nextDay,
                 child: const Text('Next Day'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Вызовем функцию для сброса данных
+                  _resetBudget(context);
+                },
+                child: const Text('Начать заново'),
               ),
             ],
           ),

@@ -2,13 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './state.dart';
 import './component.dart';
+
 import './storage.dart'; // Импортируем файл с классом StorageHelper
 
-void main() {
-  WidgetsFlutterBinding
-      .ensureInitialized(); // Инициализация для асинхронных операций
+Future<void> loadstorage() async {
+  // await StorageHelper.saveData('totalBudget', '5000');
+  // await StorageHelper.saveData('totalDays', '30');
+  final budget = await StorageHelper.loadData('totalBudget');
+  final days = await StorageHelper.loadData('totalDays');
+  print('Test Budget: $budget, Test Days: $days');
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await loadstorage(); // Теперь можно использовать await
   runApp(const MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -122,6 +132,8 @@ class _BudgetSetupState extends State<BudgetSetup> {
       );
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {

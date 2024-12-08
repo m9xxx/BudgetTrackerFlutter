@@ -10,7 +10,7 @@ class PageDefault extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<BudgetModel>(
-      create: (_) => BudgetModel(30000.00, 30), // Пример бюджета и дней
+      create: (_) => BudgetModel(0, 0), // Пример бюджета и дней
       child: const BudgetTracker(),
     );
   }
